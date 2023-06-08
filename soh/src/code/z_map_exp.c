@@ -873,30 +873,32 @@ void Minimap_Draw(PlayState* play) {
 
                         s16 entranceX = OTRGetRectDimensionFromRightEdge(PosX);
                         s16 entranceY = newY + Y_Margins_Minimap;
+                        
+                        // if the minimap isn't in the original position
                         if (CVarGetInteger("gMinimapPosType", 0) != 0) {
                             entranceY = newY + CVarGetInteger("gMinimapPosY", 0) + Y_Margins_Minimap;
-                            if (CVarGetInteger("gMinimapPosType", 0) == 1) { // Anchor Left
-                                if (CVarGetInteger("gMinimapUseMargins", 0) != 0) {X_Margins_Minimap = Left_MM_Margin;};
-                                entranceX = OTRGetRectDimensionFromLeftEdge(PosX + CVarGetInteger("gMinimapPosX", 0));
-                            } else if (CVarGetInteger("gMinimapPosType", 0) == 2) { // Anchor Right
-                                if (CVarGetInteger("gMinimapUseMargins", 0) != 0) {X_Margins_Minimap = Right_MM_Margin;};
-                                entranceX = OTRGetRectDimensionFromRightEdge(PosX + CVarGetInteger("gMinimapPosX", 0));
-                            } else if (CVarGetInteger("gMinimapPosType", 0) == 3) { // Anchor None
-                                entranceX = PosX + CVarGetInteger("gMinimapPosX", 0);
-                            } else if (CVarGetInteger("gMinimapPosType", 0) == 4) { // Hidden
-                                entranceX = -9999;
-                            }
+                        }
+
+                        if (CVarGetInteger("gMinimapPosType", 0) == 1) { // Anchor Left
+                            if (CVarGetInteger("gMinimapUseMargins", 0) != 0) {X_Margins_Minimap = Left_MM_Margin;};
+                            entranceX = OTRGetRectDimensionFromLeftEdge(PosX + CVarGetInteger("gMinimapPosX", 0));
+                        } else if (CVarGetInteger("gMinimapPosType", 0) == 2) { // Anchor Right
+                            if (CVarGetInteger("gMinimapUseMargins", 0) != 0) {X_Margins_Minimap = Right_MM_Margin;};
+                            entranceX = OTRGetRectDimensionFromRightEdge(PosX + CVarGetInteger("gMinimapPosX", 0));
+                        } else if (CVarGetInteger("gMinimapPosType", 0) == 3) { // Anchor None
+                            entranceX = PosX + CVarGetInteger("gMinimapPosX", 0);
                         }
 
                         // For icons that normally would be placed in 0,0 leave them there based on the left edge dimension
                         // or hide them entirely based on the settings
                         if (gMapData->owEntranceIconPosY[sEntranceIconMapIndex] == 0) {
                             entranceY = 0;
-                            if (CVarGetInteger("gFixDungeonMinimapIcon", 0) || CVarGetInteger("gMinimapPosType", 0) == 4) { // Hidden
-                                entranceX = -9999;
-                            } else {
-                                entranceX = OTRGetRectDimensionFromLeftEdge(0);
-                            }
+                            entranceX = CVarGetInteger("gFixDungeonMinimapIcon", 0) ? -9999 : OTRGetRectDimensionFromLeftEdge(0);
+                        }
+
+                        // always set entranceX to -9999 when we're hiding the minimap
+                        if (CVarGetInteger("gMinimapPosType", 0) == 4) { // Hidden
+                            entranceX = -9999;
                         }
 
                         //! @bug UB: sEntranceIconMapIndex can be up to 23 and is accessing owEntranceFlag which is size 20
