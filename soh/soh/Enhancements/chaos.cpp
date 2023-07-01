@@ -255,6 +255,7 @@ static std::map<uint8_t, CommandCreator> kCommands {
 	CMD_TIMED_BOOL_CVAR(CMD_ID++, "gMoonwalk"),
 	CMD_TIMED_BOOL_CVAR(CMD_ID++, "gDisableLedgeJump"),
 	CMD_TIMED_BOOL_CVAR(CMD_ID++, "gChaosRedeem"),
+	CMD_TIMED_BOOL_CVAR(CMD_ID++, "gHyperEnemies"),
 
 	// CMD_TAKE_AMMO(0x80, ITEM_BOMBCHU),
 	// CMD_TAKE_AMMO(0x81, ITEM_STICK),
