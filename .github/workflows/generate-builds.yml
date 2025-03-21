@@ -2,11 +2,14 @@ name: generate-builds
 on:
   push:
   pull_request:
+  schedule:
+    - cron: 15 23 */5 * *
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-jobs:
 
+jobs:
   generate-soh-otr:
     runs-on: ubuntu-22.04
     steps:
